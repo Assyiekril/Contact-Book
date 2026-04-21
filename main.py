@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 from database import engine, Base
+
+# Import model dulu agar tabel terbuat
+from models.user import User
+from models.contact import Contact
+
 from routers import auth, contacts
 
-# Buat semua tabel otomatis saat aplikasi start
+# Buat semua tabel
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -11,7 +16,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Daftarkan semua router
 app.include_router(auth.router)
 app.include_router(contacts.router)
 
